@@ -1,7 +1,14 @@
 const express = require("express");
-
+const morgan = require("morgan");
 const app = express();
-
+//app.use(morgan("dev"));
+function customMiddleWere(req, res, next) {
+  if (req.url === "/help") {
+    res.send("<h1>Sorry this page is Blocked by Admin</h1>");
+  }
+  next();
+}
+app.use(customMiddleWere);
 app.get("/about", (req, res) => {
   res.send("<h1>I am About Page</h1>");
 });
