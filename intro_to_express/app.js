@@ -8,7 +8,15 @@ function customMiddleWere(req, res, next) {
   }
   next();
 }
-app.use(customMiddleWere);
+
+function tinyLogger() {
+  return (req, res, next) => {
+    console.log(`${req.method} - ${req.url}`);
+    next();
+  };
+}
+const middleWare = [customMiddleWere, tinyLogger()];
+app.use(middleWare);
 app.get("/about", (req, res) => {
   res.send("<h1>I am About Page</h1>");
 });
